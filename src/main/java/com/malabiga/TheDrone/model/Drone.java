@@ -1,7 +1,9 @@
 package com.malabiga.TheDrone.model;
 
-import com.malabiga.TheDrone.condition.Model.WeightCategory;
-import com.malabiga.TheDrone.condition.Model.State;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.malabiga.TheDrone.data.DataPackage;
+import com.malabiga.TheDrone.data.DataPackage.ModelCategory;
+import com.malabiga.TheDrone.data.DataPackage.StateCategory;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -10,6 +12,7 @@ import java.util.List;
 @Entity
 public class Drone {
 
+    /* INITIALIZATION */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -18,21 +21,23 @@ public class Drone {
     private String serialNumber;
 
     @Enumerated(EnumType.STRING)
-    private WeightCategory model;  // Now using WeightCategory
+    private ModelCategory model;
 
     private int weightLimit;
 
     private int batteryCapacity;
 
     @Enumerated(EnumType.STRING)
-    private State state;  // Now using State
+    private StateCategory state;
 
     @OneToMany(mappedBy = "drone", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<Medication> medications = new ArrayList<>();
 
+    /* CONSTRUCTORS */
     public Drone() {}
 
-    public Drone(String serialNumber, WeightCategory model, int weightLimit, int batteryCapacity, State state) {
+    public Drone(String serialNumber, ModelCategory model, int weightLimit, int batteryCapacity, StateCategory state) {
         this.serialNumber = serialNumber;
         this.model = model;
         this.weightLimit = weightLimit;
@@ -40,6 +45,7 @@ public class Drone {
         this.state = state;
     }
 
+    /* GETTERS AND SETTERS */
     public Long getId() {
         return id;
     }
@@ -56,11 +62,11 @@ public class Drone {
         this.serialNumber = serialNumber;
     }
 
-    public WeightCategory getModel() {
+    public DataPackage.ModelCategory getModel() {
         return model;
     }
 
-    public void setModel(WeightCategory model) {
+    public void setModel(DataPackage.ModelCategory model) {
         this.model = model;
     }
 
@@ -80,11 +86,11 @@ public class Drone {
         this.batteryCapacity = batteryCapacity;
     }
 
-    public State getState() {
+    public StateCategory getState() {
         return state;
     }
 
-    public void setState(State state) {
+    public void setState(StateCategory state) {
         this.state = state;
     }
 
@@ -96,7 +102,6 @@ public class Drone {
         this.medications = medications;
     }
 
-    // --- toString() ---
     @Override
     public String toString() {
         return "Drone{" +

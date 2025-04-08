@@ -1,6 +1,7 @@
 package com.malabiga.TheDrone.config;
 
-import com.malabiga.TheDrone.condition.Model.State;
+import com.malabiga.TheDrone.data.DataPackage.StateCategory;
+import com.malabiga.TheDrone.data.DataPackage.ModelCategory;
 import com.malabiga.TheDrone.model.Drone;
 import com.malabiga.TheDrone.model.Medication;
 import com.malabiga.TheDrone.repository.DroneRepository;
@@ -20,17 +21,17 @@ public class DataLoader {
 
             Drone drone1 = new Drone();
             drone1.setSerialNumber("DRN001");
-            drone1.setModel(com.malabiga.TheDrone.condition.Model.WeightCategory.LIGHTWEIGHT);
+            drone1.setModel(ModelCategory.LIGHTWEIGHT);
             drone1.setWeightLimit(300);
             drone1.setBatteryCapacity(80);
-            drone1.setState(State.IDLE);
+            drone1.setState(StateCategory.IDLE);
 
             Drone drone2 = new Drone();
             drone2.setSerialNumber("DRN002");
-            drone2.setModel(com.malabiga.TheDrone.condition.Model.WeightCategory.MIDDLEWEIGHT);
+            drone2.setModel(ModelCategory.MIDDLEWEIGHT);
             drone2.setWeightLimit(500);
             drone2.setBatteryCapacity(60);
-            drone2.setState(State.IDLE);
+            drone2.setState(StateCategory.IDLE);
 
             droneRepo.saveAll(Arrays.asList(drone1, drone2));
 

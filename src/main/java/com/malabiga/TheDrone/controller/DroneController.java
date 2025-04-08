@@ -19,35 +19,33 @@ public class DroneController {
         this.droneService = droneService;
     }
 
-    // Register a new drone
+    /* Registering a drone */
     @PostMapping
     public ResponseEntity<Drone> registerDrone(@Valid @RequestBody Drone drone) {
         return ResponseEntity.ok(droneService.registerDrone(drone));
     }
 
-    // Load medications onto a drone
+    /* Loading a drone with medication */
     @PostMapping("/{droneId}/load")
-    public ResponseEntity<Drone> loadDroneWithMedications(
-            @PathVariable Long droneId,
-            @Valid @RequestBody List<Medication> medications) {
-        return ResponseEntity.ok(droneService.loadMedications(droneId, medications));
+    public ResponseEntity<Drone> loadDroneWithMedications(@PathVariable Long droneId, @Valid @RequestBody List<Medication> medications) {
+        return ResponseEntity.ok(droneService.loadDroneWithMedications(droneId, medications));
     }
 
-    // Get medications loaded on a drone
+    /* Checking loaded medications for a given drone */
     @GetMapping("/{droneId}/medications")
     public ResponseEntity<List<Medication>> getLoadedMedications(@PathVariable Long droneId) {
         return ResponseEntity.ok(droneService.getLoadedMedications(droneId));
     }
 
-    // Get drones available for loading
+    /* Check drone availability for loading */
     @GetMapping("/available")
     public ResponseEntity<List<Drone>> getAvailableDrones() {
         return ResponseEntity.ok(droneService.getAvailableDronesForLoading());
     }
 
-    // Get battery level of a specific drone
+    /* Check drone information (Battery) */
     @GetMapping("/{droneId}/battery")
     public ResponseEntity<Integer> getDroneBattery(@PathVariable Long droneId) {
-        return ResponseEntity.ok(droneService.getDroneBatteryLevel(droneId));
+        return ResponseEntity.ok(droneService.getDroneBattery(droneId));
     }
 }

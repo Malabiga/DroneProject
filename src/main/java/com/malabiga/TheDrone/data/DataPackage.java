@@ -1,14 +1,17 @@
-package com.malabiga.TheDrone.condition;
+package com.malabiga.TheDrone.data;
 
-public class Model {
-    public enum WeightCategory{
+public class DataPackage {
+
+    /* MODEL */
+    public enum ModelCategory{
         LIGHTWEIGHT,
         MIDDLEWEIGHT,
         CRUISERWEIGHT,
         HEAVYWEIGHT
     }
 
-    public enum State {
+    /* STATE */
+    public enum StateCategory {
         IDLE,
         LOADING,
         LOADED,

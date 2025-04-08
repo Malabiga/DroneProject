@@ -1,17 +1,11 @@
-package com.malabiga.TheDrone.model;
+package com.malabiga.TheDrone.entities.typedmetadata;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import jakarta.persistence.*;
 import jakarta.validation.constraints.Pattern;
 
-@Entity
-public class Medication {
+/* This class is just an optional if we want to exclude the ID to the JSON Response */
+public class MedicationDTO {
 
     /* INITIALIZATION */
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
     @Pattern(regexp = "^[A-Za-z0-9-_]+$")
     private String name;
 
@@ -22,33 +16,17 @@ public class Medication {
 
     private String image;
 
-    @ManyToOne
-    @JoinColumn(name = "drone_id")
-    @JsonBackReference
-    private Drone drone;
-
-
     /* CONSTRUCTORS */
-    public Medication() {}
+    public MedicationDTO() {}
 
-    public Medication(String name, int weight, String code, String image, Drone drone) {
+    public MedicationDTO(String name, int weight, String code, String image) {
         this.name = name;
         this.weight = weight;
         this.code = code;
         this.image = image;
-        this.drone = drone;
     }
-
 
     /* GETTERS AND SETTERS */
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public String getName() {
         return name;
     }
@@ -81,18 +59,9 @@ public class Medication {
         this.image = image;
     }
 
-    public Drone getDrone() {
-        return drone;
-    }
-
-    public void setDrone(Drone drone) {
-        this.drone = drone;
-    }
-
     @Override
     public String toString() {
-        return "Medication{" +
-                "id=" + id +
+        return "MedicationDTO{" +
                 ", name='" + name + '\'' +
                 ", weight=" + weight +
                 ", code='" + code + '\'' +

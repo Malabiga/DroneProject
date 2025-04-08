@@ -1,6 +1,7 @@
 package com.malabiga.TheDrone.service;
 
-import com.malabiga.TheDrone.condition.Model;
+import com.malabiga.TheDrone.data.DataPackage.ModelCategory;
+import com.malabiga.TheDrone.data.DataPackage.StateCategory;
 import com.malabiga.TheDrone.model.Drone;
 import com.malabiga.TheDrone.repository.DroneRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -33,10 +34,10 @@ class DroneServiceTest {
     void testRegisterDrone() {
         Drone drone = new Drone();
         drone.setSerialNumber("DRN001");
-        drone.setModel(Model.WeightCategory.LIGHTWEIGHT);
+        drone.setModel(ModelCategory.LIGHTWEIGHT);
         drone.setBatteryCapacity(90);
         drone.setWeightLimit(300);
-        drone.setState(Model.State.IDLE);
+        drone.setState(StateCategory.IDLE);
 
         when(droneRepository.save(any(Drone.class))).thenReturn(drone);
 
@@ -55,7 +56,7 @@ class DroneServiceTest {
 
         when(droneRepository.findById(1L)).thenReturn(Optional.of(drone));
 
-        int battery = droneServiceImpl.getDroneBatteryLevel(1L);
+        int battery = droneServiceImpl.getDroneBattery(1L);
 
         assertEquals(75, battery);
         verify(droneRepository, times(1)).findById(1L);
