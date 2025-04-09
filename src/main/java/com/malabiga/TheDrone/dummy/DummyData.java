@@ -1,4 +1,4 @@
-package com.malabiga.TheDrone.config;
+package com.malabiga.TheDrone.dummy;
 
 import com.malabiga.TheDrone.data.DataPackage.StateCategory;
 import com.malabiga.TheDrone.data.DataPackage.ModelCategory;
@@ -13,10 +13,10 @@ import org.springframework.context.annotation.Configuration;
 import java.util.Arrays;
 
 @Configuration
-public class DataLoader {
+public class DummyData {
 
     @Bean
-    public CommandLineRunner loadData(DroneRepository droneRepo, MedicationRepository medRepo) {
+    public CommandLineRunner dummyData(DroneRepository droneRepo, MedicationRepository medRepo) {
         return args -> {
 
             Drone drone1 = new Drone();
@@ -43,9 +43,9 @@ public class DataLoader {
             med1.setDrone(drone1);
 
             Medication med2 = new Medication();
-            med2.setName("ColdTab-100");
+            med2.setName("Paracetamol-100");
             med2.setWeight(150);
-            med2.setCode("CT100_B");
+            med2.setCode("PRCTM500_B");
             med2.setImage("image-url-2");
             med2.setDrone(drone1);
 
