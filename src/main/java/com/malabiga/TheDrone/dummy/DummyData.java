@@ -16,7 +16,7 @@ import java.util.Arrays;
 public class DummyData {
 
     @Bean
-    public CommandLineRunner dummyData(DroneRepository droneRepo, MedicationRepository medRepo) {
+    public CommandLineRunner loadDummyData(DroneRepository droneRepo, MedicationRepository medRepo) {
         return args -> {
 
             Drone drone1 = new Drone();
@@ -24,7 +24,7 @@ public class DummyData {
             drone1.setModel(ModelCategory.LIGHTWEIGHT);
             drone1.setWeightLimit(300);
             drone1.setBatteryCapacity(80);
-            drone1.setState(StateCategory.IDLE);
+            drone1.setState(StateCategory.DELIVERING);
 
             Drone drone2 = new Drone();
             drone2.setSerialNumber("DRN002");

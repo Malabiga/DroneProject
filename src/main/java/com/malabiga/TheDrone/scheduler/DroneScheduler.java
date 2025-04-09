@@ -3,6 +3,8 @@ package com.malabiga.TheDrone.scheduler;
 import com.malabiga.TheDrone.data.DataPackage.StateCategory;
 import com.malabiga.TheDrone.model.Drone;
 import com.malabiga.TheDrone.repository.DroneRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,6 +14,7 @@ import java.util.Random;
 
 @Component
 public class DroneScheduler {
+    private static final Logger log = LoggerFactory.getLogger(DroneScheduler.class);
 
     /* INITIALIZATION */
     private final DroneRepository droneRepository;
@@ -22,13 +25,16 @@ public class DroneScheduler {
         this.droneRepository = droneRepository;
     }
 
-    /* Every 15 seconds simulate state transition and battery drain */
+    /* Every 10 seconds simulate state transition and battery drain */
     @Transactional
     @Scheduled(fixedRateString = "${drone.scheduler.fixed-rate}")
     public void updateDroneStates() {
         List<Drone> drones = droneRepository.findAll();
 
         for (Drone drone : drones) {
+
+            log.info("Processing drone: {} | Battery: {} | State: {}", drone.getId(), drone.getBatteryCapacity(), drone.getState());
+
             int battery = drone.getBatteryCapacity();
 
             /* Skip drones with 0% battery */

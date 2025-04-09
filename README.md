@@ -34,3 +34,9 @@ Driver Class: org.h2.Driver
 JDBC URL: jdbc:h2:mem:drone_db
 Username: sa
 Password: *blank
+
+5. Configuration
+- on applicatoin.properties we can always set the duration scheduler milliseconds
+or search -> drone.scheduler.fixed-rate=10000
+
+6. Check logs to view the transactions

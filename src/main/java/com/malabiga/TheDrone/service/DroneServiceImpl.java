@@ -5,6 +5,9 @@ import com.malabiga.TheDrone.model.Drone;
 import com.malabiga.TheDrone.model.Medication;
 import com.malabiga.TheDrone.repository.DroneRepository;
 import com.malabiga.TheDrone.repository.MedicationRepository;
+import com.malabiga.TheDrone.scheduler.DroneScheduler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,6 +17,8 @@ import java.util.stream.Collectors;
 @Transactional
 @Service
 public class DroneServiceImpl implements DroneService {
+
+    private static final Logger log = LoggerFactory.getLogger(DroneServiceImpl.class);
 
     /* INITIALIZATION */
     private final DroneRepository droneRepository;
@@ -28,16 +33,19 @@ public class DroneServiceImpl implements DroneService {
     /* Registering a drone */
     @Override
     public Drone registerDrone(Drone drone) {
+        log.info("Registered Drone: {}", drone);
         return droneRepository.save(drone);
     }
 
     /* Loading a drone with medication */
     @Override
     public Drone loadDroneWithMedications(Long droneId, List<Medication> medications) {
+
         Drone drone = droneRepository.findById(droneId).orElseThrow(() -> new RuntimeException("Drone not found"));
 
         /* Prevent drone enter to LOADING state is the battery level is below 25%. */
         if (drone.getBatteryCapacity() < 25) {
+            log.error("Drone battery is {}, too low for loading", drone.getBatteryCapacity());
             throw new IllegalStateException("Drone battery too low for loading.");
         }
 
@@ -46,11 +54,13 @@ public class DroneServiceImpl implements DroneService {
         int addedWeight = medications.stream().mapToInt(Medication::getWeight).sum();
 
         if (currentWeight + addedWeight > drone.getWeightLimit()) {
+            log.error("Loading exceeds drone weight limit.");
             throw new IllegalArgumentException("Loading exceeds drone weight limit.");
         }
 
         for (Medication medication : medications) {
             medication.setDrone(drone);
+            log.info("Successfully saved medication: {}", medication);
             medicationRepository.save(medication);
         }
 
@@ -63,6 +73,7 @@ public class DroneServiceImpl implements DroneService {
     @Override
     public List<Medication> getLoadedMedications(Long droneId) {
         Drone drone = droneRepository.findById(droneId).orElseThrow(() -> new RuntimeException("Drone not found"));
+        log.info("Loaded medication(s): {}",drone.getMedications());
         return drone.getMedications();
     }
 
@@ -78,6 +89,7 @@ public class DroneServiceImpl implements DroneService {
     @Override
     public int getDroneBattery(Long droneId) {
         Drone drone = droneRepository.findById(droneId).orElseThrow(() -> new RuntimeException("Drone not found"));
+        log.info("Drone Battery Percentage: {}",drone.getBatteryCapacity());
         return drone.getBatteryCapacity();
     }
 }
